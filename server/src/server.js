@@ -3,7 +3,7 @@ require('dotenv').config();
 // Assign environment variables
 const port = process.env.PORT || 4000;
 const config = require('./config')
-console.log(JSON.stringify(config))
+
 /**
  * Setup services
  */

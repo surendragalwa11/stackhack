@@ -8,7 +8,7 @@ const urlConstants = require('../constants/APIURLConstants');
 const ping = require('../modules/ping/ping-controller');
 const task = require('../modules/task/task-controller');
 const user = require('../modules/user/user-controller');
-
+const passport = require('passport');
 
 function shouldCompress(req, res) {
     if (req.headers['x-no-compression']) {
@@ -30,7 +30,8 @@ module.exports = function (app) {
 
     app.use(express.json());
     app.use(cors(corsOptions));
-
+    app.use(passport.initialize());
+    app.use(passport.session());
     app.use(urlConstants.pingURL, ping);
     app.use(urlConstants.userURL, user);
     app.use(urlConstants.taskURL, task);
