@@ -16,13 +16,17 @@
     "url": "git@github.com:rishacha/stackhack.git"
   },
   "keywords": [
-    "apollo",
-    "graphql",
+    "mongoose",
     "express",
-    "react"
+    "react",
+    "node"
   ],
   "author": "Josh Cuneo",
-  "contributors": ["Prakhar Patidar","Rishabh Chakrabarti <rishacha.dev@gmail.com>","Surendra Galwa"],
+  "contributors": [
+    "Prakhar Patidar",
+    "Rishabh Chakrabarti <rishacha.dev@gmail.com>",
+    "Surendra Galwa"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rishacha/stackhack/issues"
@@ -44,6 +48,8 @@
     "winston-daily-rotate-file": "4.4.2"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.1.5",
+    "jest": "^26.0.1",
     "nodemon": "^1.18.3"
   }
 }
