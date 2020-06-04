@@ -5,8 +5,8 @@ module.exports = Object.freeze({
         callBackURL: process.env.fb_callBackURL + '/api/v1/user/auth/facebook/callback',
     }, 
     'googleAuth': {
-        clientId: '',
-        clientSecret: '',
-        callBackURL: '',
+        clientId: process.env.google_clientId,
+        clientSecret: process.env.google_clientSecret,
+        callBackURL: process.env.google_callBackURL + '/api/v1/user/auth/google/callback'
     }
 })
