@@ -3,10 +3,7 @@ require('dotenv').config();
 // Assign environment variables
 const port = process.env.PORT || 4000;
 const config = require('./config')
-
-/**
- * Setup services
- */
+const logger = require('./startup/logger')
 
 // Initiliase an express server
 const app = express();
@@ -19,4 +16,8 @@ const options = {
 require('./startup/db')();
 require('./startup/routes')(app);
 require('./startup/passport');
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => logger.info(`Listening on port ${port}`));
+
+module.exports = {
+  app
+}
