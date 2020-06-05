@@ -2,70 +2,50 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const { userModel } = require('./user-model');
-const jwt = require('jsonwebtoken');
+const logger = require('../../startup/logger');
+const { resigerUser, loginUser } = require('./user-service');
 
-router.get('/', (req, res) => {
-    console.log('User Get.')
-    res.send('All users')
-});
-
+// Verify user with Face book authentication
 router.get('/auth/facebook',
-  passport.authenticate('facebook', {scope: 'email'}));
+  passport.authenticate('facebook', { scope: 'email' }));
 
-router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    // res.redirect('/');
+router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
     res.send("Authttenciated")
-  });
+  }
+);
 
+// Login user with system user name and password
 router.post('/auth/login', async (req, res) => {
-  if(!req.body.username){ 
-    res.json({success: false, message: "Username was not given"}) 
-  } else { 
-    if(!req.body.password){ 
-      res.json({success: false, message: "Password was not given"}) 
-    }else{
-		try {
-			const { user } = await userModel.authenticate()(req.body.username, req.body.password);
-			if(user) {
-				console.log(`${JSON.stringify(user)}`)
-				const token = jwt.sign({userId : user._id,  
-					               username:user.username}, 'secretkey',  
-					                  {expiresIn: '24h'}) 
-				res.json({success:true, message:"Authentication  successfull", token: token }); 
-			} else {
-				res.json({success:false, message:'Incorrect username or password'})
-			}
-		}catch (err) {
-			// if (err instanceof IncorrectUsernameError) {
-				console.error(`Incorrect username error : ${err}`);
-			// }
-			res.json({success:false, message:'Incorrect username or password'})
-		}
-
-    } 
-  } 
-}
-)
-
-
-router.post('/register/local', (req, res) => {
-  let newUser = userModel({
-          username: req.body.username,
-          userId: req.body.userId,
-          email: req.body.email,
-          'authFrom.soruce': 'local'
-  })
-
-  userModel.register(newUser, req.body.password, (err, user) => {
-    if(err) {
-      res.send(`Some error : ${err}`)
-    }else {
-      res.send('Successfuly created')
-    }
-  })
+  try {
+    const user = await loginUser(req.body);
+    return res.send(user);
+  } catch (error) {
+    return res.status(400).send({
+      status: 'error',
+      message: error.message
+    })
+  }
 })
+
+// Register user with system Id and password
+router.post('/register/local', async (req, res) => {
+
+  try {
+    const user = await resigerUser(req.body);
+    return res.send(user);
+  } catch (error) {
+    return res.status(400).send({
+      status: 'error',
+      message: error.message
+    })
+  }
+
+})
+
+// Get all the users
+router.get('/', (req, res) => {
+  logger.debug('User Get.')
+  res.send('All users')
+});
 
 module.exports = router;

@@ -2,19 +2,6 @@ const mongoose = require('mongoose');
 const userCollection = require('../../constants/MongoCollection').userCollectionName;
 const passportLocalMongoose = require('passport-local-mongoose');
 
-const userAuthFrom = new mongoose.Schema({
-    source: {
-        type: [String],
-        enum: [0, 1, 2]
-    },
-    password: {
-        type: String,
-    },
-    token: {
-        type: String,
-    }
-})
-
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -31,8 +18,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Email is required']
     },
-    authFrom: {
-        type: userAuthFrom
+    authSource: {
+        type: String,
     },
     createdOn: {
         type: Date,
