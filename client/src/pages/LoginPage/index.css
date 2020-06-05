@@ -1,0 +1,9 @@
+.welcome-section {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5rem;
+}
+
+.login-section {
+    padding: 3rem;
+}
