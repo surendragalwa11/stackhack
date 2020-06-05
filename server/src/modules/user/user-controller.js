@@ -10,8 +10,18 @@ router.get('/auth/facebook',
   passport.authenticate('facebook', { scope: 'email' }));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-    res.send("Authttenciated")
-  }
+  res.send("Authttenciated")
+}
+);
+
+// Veriy user with Google authentication
+router.get('/auth/google', passport.authenticate('google', {
+  scope: ['https://www.googleapis.com/auth/userinfo.profile', 'email', 'profile' ]
+}));
+
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  res.send("Authttenciated")
+}
 );
 
 // Login user with system user name and password

@@ -1,6 +1,7 @@
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const config = require('../config');
 const { userModel } = require('../modules/user/user-model');
 const logger = require('./logger');
@@ -11,7 +12,7 @@ passport.deserializeUser(userModel.deserializeUser());
 // Strategy to authenticate for system username and password
 passport.use(new LocalStrategy(userModel.authenticate()));
 
-// Stratey for facebook usernamae and password
+// Stratey for facebook users
 passport.use(new FacebookStrategy({
   clientID: config.facebookAuth.clientId,
   clientSecret: config.facebookAuth.clientSecret,
@@ -24,7 +25,7 @@ passport.use(new FacebookStrategy({
       if (user) {
         logger.info('user found');
         return cb(user);
-      }else {
+      } else {
         logger.debug(`Facebook user not found. Creating one...`)
         let newUser = new userModel({
           username: profile.displayName,
@@ -41,3 +42,36 @@ passport.use(new FacebookStrategy({
     }
   }
 ));
+
+// Strategy for google users
+passport.use(new GoogleStrategy({
+  clientID: config.googleAuth.clientId,
+  clientSecret: config.googleAuth.clientSecret,
+  callbackURL: config.googleAuth.callBackURL,
+  profileFields: profielFiledsFB
+
+},
+  async (token, refreshToken, profile, cb) => {
+    try {
+      console.log(`${JSON.stringify(profile)}`)
+      let user = await userModel.findOne({ 'userId': profile.id });
+      if (user) {
+        logger.info('user found');
+        return cb(user);
+      } else {
+        logger.debug(`Facebook user not found. Creating one...`)
+        let newUser = new userModel({
+          username: profile.displayName,
+          userId: profile.id,
+          email: profile.emails[0].value,
+          authSource: 'fb'
+        })
+
+        await newUser.save();
+        return cb(newUser);
+      }
+    } catch (error) {
+      logger.error(`SOme error : ${error}`);
+    }
+  }));
+

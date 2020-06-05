@@ -16,6 +16,8 @@ const options = {
 require('./startup/db')();
 require('./startup/routes')(app);
 require('./startup/passport');
+require('./startup/globalExceptionHandler');
+
 app.listen(port, () => logger.info(`Listening on port ${port}`));
 
 module.exports = {
