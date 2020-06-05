@@ -10,7 +10,7 @@ router.get('/auth/facebook',
   passport.authenticate('facebook', { scope: 'email' }));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-  res.send("Authttenciated")
+  // res.send("Authttenciated")
 }
 );
 
@@ -20,7 +20,7 @@ router.get('/auth/google', passport.authenticate('google', {
 }));
 
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  res.send("Authttenciated")
+  // res.send("Authttenciated")
 }
 );
 
@@ -51,11 +51,5 @@ router.post('/register/local', async (req, res) => {
   }
 
 })
-
-// Get all the users
-router.get('/', (req, res) => {
-  logger.debug('User Get.')
-  res.send('All users')
-});
 
 module.exports = router;

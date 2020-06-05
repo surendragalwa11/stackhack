@@ -1,5 +1,6 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
+const constant = require('../../constants/APIURLConstants').userURL;
 
 describe('User module Tests', () => {
 
@@ -16,13 +17,78 @@ describe('User module Tests', () => {
     describe('/POST', () => {
         it('should return 200 for valid request and 400 for already in use request', async () => {
           let res = await request(server)
-            .post(cameraModuleURL + "/checkExist")
+            .post(constant + "/register/local")
             .set('Accept', 'application/json')
             .set('x-access-token', accessToken )
             .send({
-              camera_name: 'camname'
+                "username": "testuser",
+                "email" : "testuser@gmail.com",
+                "password" : "samplepassword@"
             });
-          expect(res.status).toBe(success);
+          expect(res.status).toBe(200);
+        });
+
+        it('should return 200 for valid request and 400 for already in use request', async () => {
+          let res = await request(server)
+            .post(constant + "/register/local")
+            .set('Accept', 'application/json')
+            .set('x-access-token', accessToken )
+            .send({
+                "username1": "testuser",
+                "email" : "testuser@gmail.com",
+                "password" : "samplepassword@"
+            });
+          expect(res.status).toBe(400);
+        });
+
+        it('should return 200 for valid request and 400 for already in use request', async () => {
+          let res = await request(server)
+            .post(constant + "/register/local")
+            .set('Accept', 'application/json')
+            .set('x-access-token', accessToken )
+            .send({
+                "username": "testuser",
+                "email" : "testuser@gmail.com",
+                "password" : "samplepassword@"
+            });
+          expect(res.status).toBe(400);
+        });
+
+        it('should return 200 for valid request and 400 for already in use request', async () => {
+          let res = await request(server)
+            .post(constant + "/auth/login")
+            .set('Accept', 'application/json')
+            .set('x-access-token', accessToken )
+            .send({
+                "username": "testuse1r",
+                "email" : "testuser@gmail.com",
+                "password" : "samplepassword@"
+            });
+          expect(res.status).toBe(400);
+        });
+
+        it('should return 200 for valid request and 400 for already in use request', async () => {
+          let res = await request(server)
+            .post(constant + "/auth/login")
+            .set('Accept', 'application/json')
+            .set('x-access-token', accessToken )
+            .send({
+                "username": "testuser",
+                "password" : "samplepassword@"
+            });
+          expect(res.status).toBe(200);
+        });
+
+        it('should return 200 for valid request and 400 for already in use request', async () => {
+          let res = await request(server)
+            .post(constant + "/auth/login")
+            .set('Accept', 'application/json')
+            .set('x-access-token', accessToken )
+            .send({
+                "username": "testuser123",
+                "password" : "samplepassword@"
+            });
+          expect(res.status).toBe(400);
         });
     });
 
