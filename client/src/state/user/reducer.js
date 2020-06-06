@@ -41,8 +41,6 @@ const userReducer = (state = initialState, action) => {
                 progress: false,
             }
         });
-        case 'FB_SIGNUP':
-        case 'GOOGLE_SIGNUP':
         case 'NORMAL_SIGNUP':
             return({
                 ...state,
@@ -51,8 +49,6 @@ const userReducer = (state = initialState, action) => {
                     progress: true
                 }
             });
-        case 'FB_SIGNUP_SUCCESS':
-        case 'GOOGLE_SIGNUP_SUCCESS':
         case 'NORMAL_SIGNUP_SUCCESS':
             return({
             ...state,
@@ -63,8 +59,6 @@ const userReducer = (state = initialState, action) => {
                 progress: false,
             }
         });
-        case 'FB_SIGNUP_FAIL':
-        case 'GOOGLE_SIGNUP_FAIL':
         case 'NORMAL_SIGNUP_FAIL':
             return({
             ...state,

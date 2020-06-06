@@ -30,6 +30,7 @@ const SignupSectionComponent = (props) => {
         e.preventDefault();
         props.login('normal', {email, password})
     }
+    const enableSubmit = !!email && !!password;
     return(
         <div className='signup-form'>
             <h1 className='heading-2'>Sign in to ToDo Manager</h1>
@@ -52,20 +53,22 @@ const SignupSectionComponent = (props) => {
             <form className='login-form'>
                 <input
                     type='email'
+                    required
                     placeholder='Email'
                     onChange={(e) => setEmail(e.target.value)}
                 /><br />
                 <input
                     type='password'
+                    required
                     placeholder='Password'
                     onChange={(e) => setPassword(e.target.value)}
                 /><br />
-                <button
+                <input
+                    type='submit'
+                    disabled={!enableSubmit}
                     className='action-btn2'
                     onClick={onSubmit}
-                >
-                    Submit
-                </button>
+                />
             </form>
         </div>
     );

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './index.css';
 
-import {signup} from '../../state/user/api';
+import {login, signup} from '../../state/user/api';
 
 export const WelcomeSection = (props) => {
     return(
@@ -33,6 +33,7 @@ const LoginSectionComponent = (props) => {
             {name, email, password}
         )
     }
+    const enableSubmit = !!name && !!email && !!password;
     return(
         <div className='login-form'>
             <h1 className='heading-2'>Create Account</h1>
@@ -41,12 +42,12 @@ const LoginSectionComponent = (props) => {
                     src='/icons/fb-icon.png'
                     className='mr10'
                     alt='fb'
-                    onClick={() => props.signup('fb')}
+                    onClick={() => props.login('fb')}
                 />
                 <img
                     src='/icons/google-icon.png'
                     alt='google'
-                    onClick={() => props.signup('google')}
+                    onClick={() => props.login('google')}
                 />
             </div>
             <div className='light-text'>
@@ -55,31 +56,35 @@ const LoginSectionComponent = (props) => {
             <form className='login-form'>
                 <input
                     type='text'
+                    required
                     placeholder='Name'
                     onChange={(e) => setName(e.target.value)}
                 /><br />
                 <input
                     type='text'
+                    required
                     placeholder='Email'
                     onChange={(e) => setEmail(e.target.value)}
                 /><br />
                 <input
                     type='password'
+                    required
                     placeholder='Password'
                     onChange={(e) => setPassword(e.target.value)}
                 /><br />
-                <button
+                <input
+                    type='submit'
                     className='action-btn2'
+                    disabled={!enableSubmit}
                     onClick={onSubmit}
-                >
-                    Submit
-                </button>
+                />
             </form>
         </div>
     );
 }
 
 const mapDispatchToProps = (dispatch) => ({
+    login: (type, data) => dispatch(login(type, data)),
     signup: (type, data) => dispatch(signup(type, data)),
 });
 

@@ -8,12 +8,6 @@ import {
     NORMAL_LOGIN,
     NORMAL_LOGIN_SUCCESS,
     NORMAL_LOGIN_FAIL,
-    FB_SIGNUP,
-    FB_SIGNUP_SUCCESS,
-    FB_SIGNUP_FAIL,
-    GOOGLE_SIGNUP,
-    GOOGLE_SIGNUP_SUCCESS,
-    GOOGLE_SIGNUP_FAIL,
     NORMAL_SIGNUP,
     NORMAL_SIGNUP_SUCCESS,
     NORMAL_SIGNUP_FAIL,
@@ -64,35 +58,6 @@ export const normalLoginSuccess = (data) => ({
     data,
 });
 
-export const fbSignup = (data) => ({
-    type: FB_SIGNUP,
-    data,
-});
-
-export const fbSignupFail = (error) => ({
-    type: FB_SIGNUP_FAIL,
-    error,
-});
-
-export const fbSignupSuccess = (data) => ({
-    type: FB_SIGNUP_SUCCESS,
-    data,
-});
-
-export const googleSignup = (data) => ({
-    type: GOOGLE_SIGNUP,
-    data,
-});
-
-export const googleSignupFail = (error) => ({
-    type: GOOGLE_SIGNUP_FAIL,
-    error,
-});
-
-export const googleSignupSuccess = (data) => ({
-    type: GOOGLE_SIGNUP_SUCCESS,
-    data,
-});
 
 export const normalSignup = (data) => ({
     type: NORMAL_SIGNUP,

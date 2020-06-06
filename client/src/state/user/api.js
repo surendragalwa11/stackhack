@@ -1,3 +1,5 @@
+import {setUser} from './storage';
+
 import {
     fbLogin,
     googleLogin,
@@ -11,16 +13,8 @@ import {
     googleLoginFail,
     normalLoginFail,
 
-    fbSignup,
-    googleSignup,
     normalSignup,
-
-    fbSignupSuccess,
-    googleSignupSuccess,
     normalSignupSuccess,
-
-    fbSignupFail,
-    googleSignupFail,
     normalSignupFail
 } from './actions';
 
@@ -28,8 +22,6 @@ import {
     FB_LOGIN,
     GOOGLE_LOGIN,
     NORMAL_LOGIN,
-    FB_SIGNUP,
-    GOOGLE_SIGNUP,
     NORMAL_SIGNUP,
 } from '../../config/api-urls';
 
@@ -56,18 +48,6 @@ const loginConfig = {
 };
 
 const signupConfig = {
-    fb: {
-        url: FB_SIGNUP,
-        action: fbSignup,
-        successAction: fbSignupSuccess,
-        failureAction: fbSignupFail,
-    },
-    google: {
-        url: GOOGLE_SIGNUP,
-        action: googleSignup,
-        successAction: googleSignupSuccess,
-        failureAction: googleSignupFail,
-    },
     normal: {
         url: NORMAL_SIGNUP,
         action: normalSignup,
@@ -85,12 +65,15 @@ export const login = (type, data) => {
             fetch(url)
             .then((res) => res.json())
             .then(result => {
+                // set local storage
+                setUser(result)
+                // dispatch action
                 dispatch(successAction(result));
                 resolve(true)
             })
             .catch(error => {
                 dispatch(failureAction(error))
-                reject(error)
+                resolve(error)
             })
         })
     }
@@ -110,7 +93,7 @@ export const signup = (type, data) => {
             })
             .catch(error => {
                 dispatch(failureAction(error))
-                reject(error)
+                resolve(error)
             })
         })
     }

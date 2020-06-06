@@ -103,10 +103,10 @@
     width: 10rem;
     padding: 0.25rem;
     border-radius: 15px;
+    cursor: pointer;
 }
 
 .action-btn:hover {
-    cursor: pointer;
     box-shadow: 3px 2px 1px rgb(252, 255, 255);
     transform: scale(1.1);
 }
@@ -126,6 +126,10 @@
 .action-btn2:hover{
     box-shadow: 3px 2px 1px rgb(252, 255, 255);
     transform: scale(1.1);
+}
+
+input:disabled{
+    cursor: not-allowed;
 }
 
 .light-text {
