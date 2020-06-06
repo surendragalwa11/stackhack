@@ -1,6 +1,6 @@
 module.exports = Object.freeze({
     successStatusString: 'success',
     errorStatusString: 'error',
-    tokenHeaderNanme: 'x-access-token',
+    tokenHeaderName: 'x-access-token',
     facebookProfileFields: ['id', 'displayName', 'photos', 'email']
 })

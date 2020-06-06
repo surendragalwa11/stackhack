@@ -21,7 +21,7 @@ function shouldCompress(req, res) {
 
 module.exports = function (app) {
     const corsOptions = {
-        exposedHeaders: [constants.tokenHeaderNanme],
+        exposedHeaders: [constants.tokenHeaderName],
     };
 
     // Run the context for each request. Assign a unique identifier to each request

@@ -4,7 +4,7 @@ const passport = require('passport');
 const { userModel } = require('./user-model');
 const logger = require('../../startup/logger');
 const { resigerUser, loginUser } = require('./user-service');
-
+const { tokenHeaderName } = require('../../constants/ApplicationConstants')
 // Verify user with Face book authentication
 router.get('/auth/facebook',
   passport.authenticate('facebook', { scope: 'email' }));
@@ -28,7 +28,12 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 router.post('/auth/login', async (req, res) => {
   try {
     const user = await loginUser(req.body);
-    return res.send(user);
+
+    res.setHeader(tokenHeaderName, user.token)
+    return res.send({
+      status: user.success,
+      message: user.message
+    });
   } catch (error) {
     return res.status(400).send({
       status: 'error',

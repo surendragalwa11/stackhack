@@ -6,7 +6,7 @@ const logger = require('../startup/logger');
 
 // To validate the JWT token from header
 module.exports = function (req, res, next) {
-  const token = req.header(constants.tokenHeaderNanme) ? req.header(constants.tokenHeaderNanme) : req.query.token;
+  const token = req.header(constants.tokenHeaderName) ? req.header(constants.tokenHeaderName) : req.query.token;
   // Return if no token in header
   if (!token) {
     return res.status(401).send({
