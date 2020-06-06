@@ -80,12 +80,20 @@ export const login = (type, data) => {
 }
 
 export const signup = (type, data) => {
-    console.log(type, data);
     const {url, action, successAction, failureAction} = signupConfig[type];
+    const payload = {
+        username: data.name,
+        email: data.email,
+        password: data.password
+    };
+    console.log(type, data, payload);
     return function(dispatch){
         dispatch(action());
         return new Promise((resolve, reject) => {
-            fetch(url)
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+            })
             .then((res) => res.json())
             .then(result => {
                 dispatch(successAction(result));

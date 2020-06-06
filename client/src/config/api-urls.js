@@ -1,7 +1,9 @@
+const BASE_URL = 'http://localhost:4000/api/v1/'
+
 export const TASK_API = '/tasks';
 
-export const FB_LOGIN = '/login/fb';
-export const GOOGLE_LOGIN = '/login/google';
-export const NORMAL_LOGIN = '/login/normal';
+export const FB_LOGIN = BASE_URL + 'user/auth/facebook';
+export const GOOGLE_LOGIN = BASE_URL + 'user/auth/google';
+export const NORMAL_LOGIN = BASE_URL + 'user/auth/login';
 
-export const NORMAL_SIGNUP = '/signup/normal';
+export const NORMAL_SIGNUP = BASE_URL + 'user/register/local';
