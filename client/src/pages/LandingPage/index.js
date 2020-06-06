@@ -8,7 +8,7 @@ import SignupPage from '../SignupPage';
 
 const LandingPage = (props) => {
     const [isLoginPage, setLoginPage] = useState(true);
-    const isLoggedIn = true;
+    const isLoggedIn = false;
     if(isLoggedIn) {
         return(<Redirect to='/home' />)
     }

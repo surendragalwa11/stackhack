@@ -1,5 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { connect } from 'react-redux';
+
 import './index.css';
+
+import {login} from '../../state/user/api';
+
 
 export const WelcomeSection = (props) => {
     return(
@@ -18,23 +23,46 @@ export const WelcomeSection = (props) => {
     );
 }
 
-export const SignupSection = () => {
+const SignupSectionComponent = (props) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const onSubmit = (e) => {
+        e.preventDefault();
+        props.login('normal', {email, password})
+    }
     return(
         <div className='signup-form'>
             <h1 className='heading-2'>Sign in to ToDo Manager</h1>
             <div className='social-acs'>
-                <img src='/icons/fb-icon.png' alt='fb' className='mr10' />
-                <img src='/icons/google-icon.png' alt='google' />
+                <img
+                    src='/icons/fb-icon.png'
+                    alt='fb'
+                    className='mr10'
+                    onClick={() => props.login('fb')}
+                />
+                <img
+                    src='/icons/google-icon.png'
+                    alt='google'
+                    onClick={() => props.login('google')}
+                />
             </div>
             <div className='light-text'>
                 or use your email account
             </div>
             <form className='login-form'>
-                <input type='text' placeholder='Email' /><br />
-                <input type='password' placeholder='Password' /><br />
+                <input
+                    type='email'
+                    placeholder='Email'
+                    onChange={(e) => setEmail(e.target.value)}
+                /><br />
+                <input
+                    type='password'
+                    placeholder='Password'
+                    onChange={(e) => setPassword(e.target.value)}
+                /><br />
                 <button
                     className='action-btn2'
-                    onClick={(e) => e.preventDefault()}
+                    onClick={onSubmit}
                 >
                     Submit
                 </button>
@@ -42,3 +70,13 @@ export const SignupSection = () => {
         </div>
     );
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    login: (type, data) => dispatch(login(type, data)),
+});
+
+const mapStateToProps = (state) => ({
+
+});
+
+export const SignupSection = connect(mapStateToProps, mapDispatchToProps)(SignupSectionComponent);

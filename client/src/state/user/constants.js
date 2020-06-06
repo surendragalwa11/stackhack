@@ -12,7 +12,7 @@ export const NORMAL_LOGIN_SUCCESS = 'NORMAL_LOGIN_SUCCESS';
 export const NORMAL_LOGIN_FAIL = 'NORMAL_LOGIN_FAIL';
 
 // signup constants
-export const FB_SIGNUP = 'FB_LOGIN';
+export const FB_SIGNUP = 'FB_SIGNUP';
 export const FB_SIGNUP_SUCCESS = 'FB_SIGNUP_SUCCESS';
 export const FB_SIGNUP_FAIL = 'FB_SIGNUP_FAIL';
 
