@@ -1,12 +1,12 @@
 /* eslint-disable func-names */
 const jwt = require('jsonwebtoken');
 const { getEnvVariable } = require('../utils/getEnvVariable');
-const constants = require('../constant/ApplicationConstant');
+const constants = require('../constants/ApplicationConstants');
 const logger = require('../startup/logger');
 
 // To validate the JWT token from header
 module.exports = function (req, res, next) {
-  const token = req.header(constants.tokenHeaderNanme) ? req.header(constants.tokenHeaderNanme) : req.query.token;
+  const token = req.header(constants.tokenHeaderName) ? req.header(constants.tokenHeaderName) : req.query.token;
   // Return if no token in header
   if (!token) {
     return res.status(401).send({
@@ -17,12 +17,9 @@ module.exports = function (req, res, next) {
   
   try {
     const decoded = jwt.verify(token, getEnvVariable('JWT_PRIVATE_KEY'));
-    req.user = decoded;
-    req.token = token;
-    if (!req.user.client_acronym) {
-      logger.error('Could not get client acronym. Which collection should I use?');
-      throw new Error()
-    }
+    req.userId = decoded.userId;
+    req.username = decoded.username;
+    req.token = decoded
     next();
   } catch (ex) {
     return res.status(401).send({
