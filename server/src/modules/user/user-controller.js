@@ -27,6 +27,7 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 // Login user with system user name and password
 router.post('/auth/login', async (req, res) => {
   try {
+    console.log('hi', req.body);
     const user = await loginUser(req.body);
 
     res.setHeader(tokenHeaderName, user.token)

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import './index.css';
 
-import {login} from '../../state/user/api';
+import {login, socialLogin} from '../../state/user/api';
+
 
 
 export const WelcomeSection = (props) => {
@@ -24,13 +25,13 @@ export const WelcomeSection = (props) => {
 }
 
 const SignupSectionComponent = (props) => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const onSubmit = (e) => {
         e.preventDefault();
-        props.login('normal', {email, password})
+        props.login('normal', {username, password})
     }
-    const enableSubmit = !!email && !!password;
+    const enableSubmit = !!username && !!password;
     return(
         <div className='signup-form'>
             <h1 className='heading-2'>Sign in to ToDo Manager</h1>
@@ -39,12 +40,12 @@ const SignupSectionComponent = (props) => {
                     src='/icons/fb-icon.png'
                     alt='fb'
                     className='mr10'
-                    onClick={() => props.login('fb')}
+                    onClick={() => props.socialLogin('fb')}
                 />
                 <img
                     src='/icons/google-icon.png'
                     alt='google'
-                    onClick={() => props.login('google')}
+                    onClick={() => props.socialLogin('google')}
                 />
             </div>
             <div className='light-text'>
@@ -52,10 +53,10 @@ const SignupSectionComponent = (props) => {
             </div>
             <form className='login-form'>
                 <input
-                    type='email'
+                    type='text'
                     required
-                    placeholder='Email'
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder='Username'
+                    onChange={(e) => setUsername(e.target.value)}
                 /><br />
                 <input
                     type='password'
@@ -76,6 +77,7 @@ const SignupSectionComponent = (props) => {
 
 const mapDispatchToProps = (dispatch) => ({
     login: (type, data) => dispatch(login(type, data)),
+    socialLogin: (type) => dispatch(socialLogin(type)),
 });
 
 const mapStateToProps = (state) => ({

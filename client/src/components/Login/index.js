@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 
+import GoogleLogin from 'react-google-login';
+
 import './index.css';
 
-import {login, signup} from '../../state/user/api';
+import {login, signup, socialLogin} from '../../state/user/api';
 
 export const WelcomeSection = (props) => {
     return(
@@ -23,17 +25,17 @@ export const WelcomeSection = (props) => {
 }
 
 const LoginSectionComponent = (props) => {
-    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const onSubmit = (e) => {
         e.preventDefault();
         props.signup(
             'normal',
-            {name, email, password}
+            {username, email, password}
         )
     }
-    const enableSubmit = !!name && !!email && !!password;
+    const enableSubmit = !!username && !!email && !!password;
     return(
         <div className='login-form'>
             <h1 className='heading-2'>Create Account</h1>
@@ -42,12 +44,23 @@ const LoginSectionComponent = (props) => {
                     src='/icons/fb-icon.png'
                     className='mr10'
                     alt='fb'
-                    onClick={() => props.login('fb')}
+                    onClick={() => props.socialLogin('fb')}
                 />
-                <img
-                    src='/icons/google-icon.png'
-                    alt='google'
-                    onClick={() => props.login('google')}
+                <GoogleLogin
+                    clientId="xxxxxxx"
+                    render={renderProps => (
+                        <img
+                            src='/icons/google-icon.png'
+                            alt='google'
+                            onClick={renderProps.onClick}
+                            disabled={renderProps.disabled}
+                        />
+                    )}
+                    onSuccess={(res) => console.log(res)}
+                    onFailure={(res) => console.log(res)}
+                    // onSuccess={() => props.socialLogin('fb', true)}
+                    // onFailure={() => props.socialLogin('fb', false)}
+                    cookiePolicy={'single_host_origin'}
                 />
             </div>
             <div className='light-text'>
@@ -57,8 +70,8 @@ const LoginSectionComponent = (props) => {
                 <input
                     type='text'
                     required
-                    placeholder='Name'
-                    onChange={(e) => setName(e.target.value)}
+                    placeholder='Username'
+                    onChange={(e) => setUsername(e.target.value)}
                 /><br />
                 <input
                     type='text'
@@ -86,6 +99,7 @@ const LoginSectionComponent = (props) => {
 const mapDispatchToProps = (dispatch) => ({
     login: (type, data) => dispatch(login(type, data)),
     signup: (type, data) => dispatch(signup(type, data)),
+    socialLogin: (type) => dispatch(socialLogin(type)),
 });
 
 const mapStateToProps = (state) => ({

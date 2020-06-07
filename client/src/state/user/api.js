@@ -56,13 +56,47 @@ const signupConfig = {
     },
 };
 
-export const login = (type, data) => {
-    console.log(type, data);
+export const socialLogin = (type) => {
     const {url, action, successAction, failureAction} = loginConfig[type];
+    console.log(url, action, successAction, failureAction);
     return function(dispatch){
         dispatch(action());
         return new Promise((resolve, reject) => {
-            fetch(url)
+            fetch(url, {
+                mode: 'no-cors',
+            })
+            .then((res) => res.json())
+            .then(result => {
+                // set local storage
+                setUser(result)
+                // dispatch action
+                dispatch(successAction(result));
+                resolve(true)
+            })
+            .catch(error => {
+                dispatch(failureAction(error))
+                resolve(error)
+            })
+        })
+    }
+}
+
+export const login = (type, data) => {
+    const {url, action, successAction, failureAction} = loginConfig[type];
+    const payload = {
+        username: data.username,
+        password: data.password,
+    };
+    return function(dispatch){
+        dispatch(action());
+        return new Promise((resolve, reject) => {
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload),
+            })
             .then((res) => res.json())
             .then(result => {
                 // set local storage
@@ -82,7 +116,7 @@ export const login = (type, data) => {
 export const signup = (type, data) => {
     const {url, action, successAction, failureAction} = signupConfig[type];
     const payload = {
-        username: data.name,
+        username: data.username,
         email: data.email,
         password: data.password
     };
@@ -92,6 +126,9 @@ export const signup = (type, data) => {
         return new Promise((resolve, reject) => {
             fetch(url, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(payload),
             })
             .then((res) => res.json())
