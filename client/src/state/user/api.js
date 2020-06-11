@@ -68,7 +68,7 @@ export const socialLogin = (type) => {
             .then((res) => res.json())
             .then(result => {
                 // set local storage
-                setUser(result)
+                // setUser(result)
                 // dispatch action
                 dispatch(successAction(result));
                 resolve(true)
@@ -99,11 +99,15 @@ export const login = (type, data) => {
             })
             .then((res) => res.json())
             .then(result => {
-                // set local storage
-                setUser(result)
-                // dispatch action
-                dispatch(successAction(result));
-                resolve(true)
+                if(result.status === 'success' || result.status) {
+                    // set local storage
+                    // setUser(result)
+                    // dispatch action
+                    dispatch(successAction(result));
+                    resolve(true)
+                } else {
+                    dispatch(failureAction(result.message))
+                }
             })
             .catch(error => {
                 dispatch(failureAction(error))

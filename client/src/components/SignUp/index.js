@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import './index.css';
 
+import {useAuth} from '../../context/auth';
+
 import {login, socialLogin} from '../../state/user/api';
 
 
@@ -27,9 +29,12 @@ export const WelcomeSection = (props) => {
 const SignupSectionComponent = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const {setAppUser} = useAuth();
     const onSubmit = (e) => {
         e.preventDefault();
         props.login('normal', {username, password})
+        .then(res => setAppUser(res))
+        .catch(err => setAppUser(''))
     }
     const enableSubmit = !!username && !!password;
     return(

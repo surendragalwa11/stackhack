@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import {Redirect} from 'react-router-dom';
 
-import {getUser} from '../../state/user/storage';
+import {useAuth} from '../../context/auth';
 
 
 import LoginPage from '../LoginPage';
@@ -10,13 +10,13 @@ import SignupPage from '../SignupPage';
 
 const LandingPage = (props) => {
     const [isLoginPage, setLoginPage] = useState(true);
-    const user = getUser();
-    const isLoggedIn = !!user;
-    if(isLoggedIn) {
+    const {isAuthenticated} = useAuth();
+    
+    if(isAuthenticated) {
         return(<Redirect to='/home' />)
     }
     return(
-        <React.Fragment>
+        <React.Fragment key={isAuthenticated}>
             {
                 isLoginPage ?
                     <LoginPage

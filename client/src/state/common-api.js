@@ -1,11 +1,13 @@
 import {getUser} from './storage';
 
 export const asyncGet = (apiUrl) => {
+    const user = getUser();
+    const token = user ? user.token : '';
     return new Promise((resolve, reject) => {
         fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'x-access-token': 'XXXXX',
+                'x-access-token': token,
             }
         })
         .then(res => res.json())
@@ -15,11 +17,13 @@ export const asyncGet = (apiUrl) => {
 }
 
 export const asyncPost = (apiUrl) => {
+    const user = getUser();
+    const token = user ? user.token : '';
     return new Promise((resolve, reject) => {
         fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'x-access-token': 'XXXXX'
+                'x-access-token': token,
             }
         })
         .then(res => res.json())

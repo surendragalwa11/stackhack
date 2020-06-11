@@ -97,7 +97,7 @@ const LoginSectionComponent = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    login: (type, data) => dispatch(login(type, data)),
+    // login: (type, data) => dispatch(login(type, data)),
     signup: (type, data) => dispatch(signup(type, data)),
     socialLogin: (type) => dispatch(socialLogin(type)),
 });
