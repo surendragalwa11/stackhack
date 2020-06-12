@@ -1,5 +1,3 @@
-import {setUser} from './storage';
-
 import {
     fbLogin,
     googleLogin,
@@ -58,7 +56,6 @@ const signupConfig = {
 
 export const socialLogin = (type) => {
     const {url, action, successAction, failureAction} = loginConfig[type];
-    console.log(url, action, successAction, failureAction);
     return function(dispatch){
         dispatch(action());
         return new Promise((resolve, reject) => {
@@ -67,15 +64,12 @@ export const socialLogin = (type) => {
             })
             .then((res) => res.json())
             .then(result => {
-                // set local storage
-                // setUser(result)
-                // dispatch action
                 dispatch(successAction(result));
                 resolve(true)
             })
             .catch(error => {
                 dispatch(failureAction(error))
-                resolve(error)
+                reject(false)
             })
         })
     }
@@ -97,21 +91,29 @@ export const login = (type, data) => {
                 },
                 body: JSON.stringify(payload),
             })
-            .then((res) => res.json())
-            .then(result => {
-                if(result.status === 'success' || result.status) {
-                    // set local storage
-                    // setUser(result)
-                    // dispatch action
-                    dispatch(successAction(result));
-                    resolve(true)
-                } else {
+            .then(async response => {
+                // get JWT auth token
+                const authToken = response.headers.get('x-access-token');
+                const result = await response.json();
+                // login failed
+                if(result.status === 'error' || !result.status) {
                     dispatch(failureAction(result.message))
+                    reject(false)
+                } else {
+                    // login success
+                    const user = {
+                        username: data.username,
+                        email: data.username,
+                        token: authToken,
+                        loginTimestamp: Date.now(),
+                    };
+                    dispatch(successAction(user));
+                    resolve(user);
                 }
             })
             .catch(error => {
                 dispatch(failureAction(error))
-                resolve(error)
+                reject(false)
             })
         })
     }
@@ -124,7 +126,6 @@ export const signup = (type, data) => {
         email: data.email,
         password: data.password
     };
-    console.log(type, data, payload);
     return function(dispatch){
         dispatch(action());
         return new Promise((resolve, reject) => {

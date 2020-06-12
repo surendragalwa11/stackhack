@@ -33,10 +33,12 @@ const userReducer = (state = initialState, action) => {
         case 'FB_LOGIN_FAIL':
         case 'GOOGLE_LOGIN_FAIL':
         case 'NORMAL_LOGIN_FAIL':
+        case 'USER_LOGGED_OUT':
             return({
             ...state,
             login:{
                 ...state.login,
+                userInfo: {},
                 loginStatus: false,
                 progress: false,
             }

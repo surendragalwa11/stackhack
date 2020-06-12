@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 
+import SocialLogin from '../Login/social-login';
+
 import './index.css';
 
 import {useAuth} from '../../context/auth';
-
-import {login, socialLogin} from '../../state/user/api';
+import {login} from '../../state/user/api';
 
 
 
@@ -30,29 +31,26 @@ const SignupSectionComponent = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const {setAppUser} = useAuth();
+    
+    // on login form submit
     const onSubmit = (e) => {
         e.preventDefault();
         props.login('normal', {username, password})
-        .then(res => setAppUser(res))
-        .catch(err => setAppUser(''))
+        .then(res => {
+            console.log('reslved', res)
+            setAppUser(res)
+        })
+        .catch((err) => {
+            console.log('rejected', err)
+            setAppUser(null)
+        })
     }
+    
     const enableSubmit = !!username && !!password;
     return(
         <div className='signup-form'>
             <h1 className='heading-2'>Sign in to ToDo Manager</h1>
-            <div className='social-acs'>
-                <img
-                    src='/icons/fb-icon.png'
-                    alt='fb'
-                    className='mr10'
-                    onClick={() => props.socialLogin('fb')}
-                />
-                <img
-                    src='/icons/google-icon.png'
-                    alt='google'
-                    onClick={() => props.socialLogin('google')}
-                />
-            </div>
+            <SocialLogin />
             <div className='light-text'>
                 or use your email account
             </div>
@@ -82,7 +80,6 @@ const SignupSectionComponent = (props) => {
 
 const mapDispatchToProps = (dispatch) => ({
     login: (type, data) => dispatch(login(type, data)),
-    socialLogin: (type) => dispatch(socialLogin(type)),
 });
 
 const mapStateToProps = (state) => ({

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { connect } from 'react-redux';
 
-import GoogleLogin from 'react-google-login';
+import SocialLogin from './social-login';
 
 import './index.css';
 
-import {login, signup, socialLogin} from '../../state/user/api';
+import {signup, socialLogin} from '../../state/user/api';
 
 export const WelcomeSection = (props) => {
     return(
@@ -39,30 +39,7 @@ const LoginSectionComponent = (props) => {
     return(
         <div className='login-form'>
             <h1 className='heading-2'>Create Account</h1>
-            <div className='social-acs'>
-                <img
-                    src='/icons/fb-icon.png'
-                    className='mr10'
-                    alt='fb'
-                    onClick={() => props.socialLogin('fb')}
-                />
-                <GoogleLogin
-                    clientId="xxxxxxx"
-                    render={renderProps => (
-                        <img
-                            src='/icons/google-icon.png'
-                            alt='google'
-                            onClick={renderProps.onClick}
-                            disabled={renderProps.disabled}
-                        />
-                    )}
-                    onSuccess={(res) => console.log(res)}
-                    onFailure={(res) => console.log(res)}
-                    // onSuccess={() => props.socialLogin('fb', true)}
-                    // onFailure={() => props.socialLogin('fb', false)}
-                    cookiePolicy={'single_host_origin'}
-                />
-            </div>
+            <SocialLogin />
             <div className='light-text'>
                 or use your email for registration
             </div>

@@ -7,7 +7,6 @@ import {useAuth} from '../context/auth';
 const PrivateRoute = (props) => {
     const {isAuthenticated} = useAuth();
     const Component = props.routeComponent;
-    console.log(isAuthenticated);
     return(
         <Route
             {...props}

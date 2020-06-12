@@ -11,6 +11,7 @@ import {
     NORMAL_SIGNUP,
     NORMAL_SIGNUP_SUCCESS,
     NORMAL_SIGNUP_FAIL,
+    USER_LOGGED_OUT,
 } from './constants';
 
 export const fbLogin = (data) => ({
@@ -53,10 +54,14 @@ export const normalLoginFail = (error) => ({
     error,
 });
 
-export const normalLoginSuccess = (data) => ({
+export const normalLoginSuccess = (user) => ({
     type: NORMAL_LOGIN_SUCCESS,
-    data,
+    data: user,
 });
+
+export const logout = () => ({
+    type: USER_LOGGED_OUT,
+})
 
 
 export const normalSignup = (data) => ({
